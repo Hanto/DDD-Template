@@ -14,7 +14,7 @@ public class ArchitectureTest
 {
     static final String CORE_PACKAGE = "com.ddd";
     private static final String DOMAIN = "..domain..";
-    private static final String ADAPTERS = "..adapter..";
+    private static final String ADAPTERS = "..infraestructure..";
     private static final String APPLICATION = "..application..";
     private static final String CONFIGURATION = "..configuration..";
     private static final String COMMON_INFRAESTRUCTURE = "..nonshared..";

@@ -1,4 +1,4 @@
-package com.ddd.context.adapter.persistence.outbox;// Created by jhant on 10/06/2022.
+package com.ddd.context.infraestructure.persistence.outbox;// Created by jhant on 10/06/2022.
 
 import lombok.NonNull;
 import org.hibernate.cfg.AvailableSettings;

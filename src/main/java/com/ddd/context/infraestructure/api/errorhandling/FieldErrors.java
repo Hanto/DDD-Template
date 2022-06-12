@@ -1,4 +1,4 @@
-package com.ddd.context.adapter.api.errorhandling;
+package com.ddd.context.infraestructure.api.errorhandling;
 
 import lombok.*;
 

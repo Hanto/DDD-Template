@@ -1,4 +1,4 @@
-package com.ddd.context.adapter.bus;// Created by jhant on 10/06/2022.
+package com.ddd.context.infraestructure.bus;// Created by jhant on 10/06/2022.
 
 import com.ddd.context.domain.events.DomainEvent;
 import com.ddd.context.domain.events.DomainEventListener;

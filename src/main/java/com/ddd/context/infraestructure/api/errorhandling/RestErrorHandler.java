@@ -1,4 +1,4 @@
-package com.ddd.context.adapter.api.errorhandling;// Created by jhant on 26/05/2022.
+package com.ddd.context.infraestructure.api.errorhandling;// Created by jhant on 26/05/2022.
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

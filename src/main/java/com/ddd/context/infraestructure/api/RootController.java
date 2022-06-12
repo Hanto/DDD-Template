@@ -1,9 +1,9 @@
-package com.ddd.context.adapter.api;// Created by jhant on 07/06/2022.
+package com.ddd.context.infraestructure.api;// Created by jhant on 07/06/2022.
 
-import com.ddd.context.adapter.api.dtos.ApiDTO;
 import com.ddd.context.domain.events.DomainEvent;
 import com.ddd.context.domain.events.EventBus;
 import com.ddd.context.domain.events.ExampleEvent;
+import com.ddd.context.infraestructure.api.dtos.ApiDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
