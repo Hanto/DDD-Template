@@ -13,9 +13,11 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
-
 import java.lang.reflect.ParameterizedType;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static java.lang.String.format;
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
@@ -38,7 +40,7 @@ public class CommandBusSpring implements CommandBus
     //--------------------------------------------------------------------------------------------------------
 
     @Override
-    public void execute(Command command)
+    public void send(Command command)
     {
         if (!handlerMap.containsKey(command.getClass()))
             throw new IllegalArgumentException(format("There are no commands to handle: %s", command.getClass().getSimpleName()));
