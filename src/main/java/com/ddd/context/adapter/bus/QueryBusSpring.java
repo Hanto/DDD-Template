@@ -1,9 +1,9 @@
 package com.ddd.context.adapter.bus;// Created by jhant on 12/06/2022.
 
 import com.ddd.common.shared.annotations.SpringComponent;
-import com.ddd.context.domain.commands.Command;
-import com.ddd.context.domain.commands.CommandBus;
-import com.ddd.context.domain.commands.CommandHandler;
+import com.ddd.context.domain.querybus.Query;
+import com.ddd.context.domain.querybus.QueryBus;
+import com.ddd.context.domain.querybus.QueryHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.reflections.Reflections;
@@ -23,46 +23,46 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 
 @SpringComponent @Primary @Scope(SCOPE_SINGLETON)
 @RequiredArgsConstructor @Log4j2 @SuppressWarnings({"rawtypes", "unchecked"})
-public class CommandBusSpring implements CommandBus
+public class QueryBusSpring implements QueryBus
 {
     @Autowired private final ApplicationContext applicationContext;
-    private final Map<Class<? extends Command>, CommandHandler> handlerMap = new HashMap<>();
+    private final Map<Class<? extends Query>, QueryHandler> handlerMap = new HashMap<>();
 
     // LOAD HANDLERS:
     //--------------------------------------------------------------------------------------------------------
 
     @PostConstruct
     public void createHandlers()
-    {   findAndLoadCommandHandlers(); }
+    {   findAndLoadQueryHandlers(); }
 
     // EXECUTE:
     //--------------------------------------------------------------------------------------------------------
 
     @Override
-    public void send(Command command)
+    public <T> T send(Query<T> query)
     {
-        if (!handlerMap.containsKey(command.getClass()))
-            throw new IllegalArgumentException(format("There are no commands to handle: %s", command.getClass().getSimpleName()));
+        if  (!handlerMap.containsKey(query.getClass()))
+            throw new IllegalArgumentException(format("There are no Queries to handle: %s", query.getClass().getSimpleName()));
 
-        CommandHandler handler = handlerMap.get(command.getClass());
+        QueryHandler handler = handlerMap.get(query.getClass());
 
-        handler.handle(command);
+        return (T) handler.handle(query);
     }
 
-    // HANDLE:
+    // HANDLERS:
     //--------------------------------------------------------------------------------------------------------
 
-    private void findAndLoadCommandHandlers()
+    private void findAndLoadQueryHandlers()
     {
         Reflections reflections = new Reflections("com.ddd");
-        Collection<Class<? extends CommandHandler>> handlerClasses = reflections.getSubTypesOf(CommandHandler.class);
+        Collection<Class<? extends QueryHandler>> handlerClasses = reflections.getSubTypesOf(QueryHandler.class);
 
-        for (Class<? extends CommandHandler> handlerClass: handlerClasses)
+        for (Class<? extends QueryHandler> handlerClass: handlerClasses)
         {
             ParameterizedType paramType = (ParameterizedType) handlerClass.getGenericInterfaces()[0];
-            Class<? extends Command>commandClass = (Class<? extends Command>)paramType.getActualTypeArguments()[0];
+            Class<? extends Query>commandClass = (Class<? extends Query>)paramType.getActualTypeArguments()[0];
 
-            CommandHandler handler = applicationContext.getBean(handlerClass);
+            QueryHandler handler = applicationContext.getBean(handlerClass);
 
             handlerMap.put(commandClass, handler);
         }
