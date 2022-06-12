@@ -1,7 +1,7 @@
 package com.ddd.context.adapter.persistence.outbox;// Created by jhant on 10/06/2022.
 
-import com.ddd.context.domain.repositories.OutboxRepository;
 import com.ddd.context.domain.events.DomainEvent;
+import com.ddd.context.domain.repositories.OutboxRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;

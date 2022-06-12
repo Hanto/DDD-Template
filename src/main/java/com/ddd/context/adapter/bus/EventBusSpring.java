@@ -1,8 +1,8 @@
 package com.ddd.context.adapter.bus;// Created by jhant on 10/06/2022.
 
+import com.ddd.context.domain.events.DomainEvent;
 import com.ddd.context.domain.events.DomainEventListener;
 import com.ddd.context.domain.events.EventBus;
-import com.ddd.context.domain.events.DomainEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
