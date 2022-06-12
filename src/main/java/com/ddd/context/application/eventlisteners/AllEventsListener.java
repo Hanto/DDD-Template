@@ -21,7 +21,7 @@ public class AllEventsListener implements DomainEventListener<DomainEvent>
     @Override
     public void onApplicationEvent(DomainEvent domainEvent)
     {
-        SendToOutboxCommand command = new SendToOutboxCommand(domainEvent);
-        commandBus.send(command);
+        SendToOutboxCommand sendToOutbox = new SendToOutboxCommand(domainEvent);
+        commandBus.send(sendToOutbox);
     }
 }
