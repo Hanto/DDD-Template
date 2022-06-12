@@ -33,5 +33,5 @@ public class OutboxMapper
     //--------------------------------------------------------------------------------------------------------
 
     public DomainEvent fromEntity(OutboxEntity entity)
-    {   return serializer.fromJson(entity.getEventJson(), entity.getEventType()); }
+    {   return serializer.fromJson(entity.getEventJson(), DomainEvent.class.getPackageName(), entity.getEventType()); }
 }

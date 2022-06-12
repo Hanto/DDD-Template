@@ -10,7 +10,9 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity @DynamicInsert @DynamicUpdate @Table(name = "OUTBOX")
-@Setter @Getter @AllArgsConstructor @NoArgsConstructor @Builder
+@NoArgsConstructor @AllArgsConstructor @Builder
+@Setter @Getter @ToString
+
 public class OutboxEntity implements Persistable<String>
 {
     // ENTITY:
@@ -37,7 +39,7 @@ public class OutboxEntity implements Persistable<String>
     @NotNull
     private String eventJson;
 
-    // PERSISTABLE (for fast inserts:
+    // PERSISTABLE (for fast inserts):
     //--------------------------------------------------------------------------------------------------------
 
     @Override
