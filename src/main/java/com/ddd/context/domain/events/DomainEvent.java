@@ -14,14 +14,14 @@ public abstract class DomainEvent implements Serializable
 {
     @EqualsAndHashCode.Include
     @NonNull private DomainEventId eventId;
-    @NonNull private String type;
+    @NonNull private String type; // change the ObjectSerializer if the field changes name
     @NonNull private Long aggregateId;
     @NonNull private LocalDateTime occurredOn;
 
     // CONSTRUCTOR:
     //--------------------------------------------------------------------------------------------------------
 
-    public DomainEvent(Long aggregateId, Class<?>eventClass)
+    public DomainEvent(@NonNull Long aggregateId, Class<?>eventClass)
     {
         this.eventId = new DomainEventId(UUID.randomUUID().toString());
         this.type = eventClass.getSimpleName();
