@@ -11,9 +11,9 @@
 	</parent>
 
 	<groupId>com.</groupId>
-	<artifactId>ddd</artifactId>
+	<artifactId>DDD-Template</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>ddd</name>
+	<name>DDD-Template</name>
 	<description>DDD Template</description>
 
 	<properties>
