@@ -60,7 +60,7 @@ public class QueryBusSpring implements QueryBus
             .map(ParameterizedType.class::cast)
             .filter(this::isAQueryHandler)
             .map(type -> type.getActualTypeArguments()[0])
-            .findFirst().orElseThrow(() -> new RuntimeException(format("Invalid CommandHandler %s", handlerClass)));
+            .findFirst().orElseThrow(() -> new RuntimeException(format("Invalid QueryHandler %s", handlerClass)));
 
         return (Class<?>) commandType;
     }
