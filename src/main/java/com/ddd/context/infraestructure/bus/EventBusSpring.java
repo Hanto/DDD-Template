@@ -25,7 +25,7 @@ public class EventBusSpring implements EventBus
 {
     private final ApplicationEventPublisher publisher;
 
-    // LOAD LISTENERS:
+    // CONSTRUCTOR:
     //--------------------------------------------------------------------------------------------------------
 
     @Autowired

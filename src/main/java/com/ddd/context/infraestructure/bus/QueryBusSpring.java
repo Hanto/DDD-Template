@@ -65,11 +65,11 @@ public class QueryBusSpring implements QueryBus
         return (Class<?>) commandType;
     }
 
-    private Class<?>getClass(Object handler)
+    private Class<?>getClass(Object clazz)
     {
-        return handler instanceof Advised ?
-            ((Advised) handler).getTargetClass() :
-            handler.getClass();
+        return clazz instanceof Advised ?
+            ((Advised) clazz).getTargetClass() :
+            clazz.getClass();
     }
 
     private boolean isAQueryHandler(ParameterizedType type)
