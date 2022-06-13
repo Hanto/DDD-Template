@@ -33,7 +33,7 @@ public class EventBusSpring implements EventBus
 
     @PostConstruct
     public void createListeners()
-    {   findAndLoadEventListeners(); }
+    {   createEventListeners(); }
 
     // PUBLISH:
     //--------------------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ public class EventBusSpring implements EventBus
     // LISTEN:
     //--------------------------------------------------------------------------------------------------------
 
-    private void findAndLoadEventListeners()
+    private void createEventListeners()
     {
         for (DomainEventListener<?> listener: listeners)
             eventMulticaster.addApplicationListener(createListener(listener));

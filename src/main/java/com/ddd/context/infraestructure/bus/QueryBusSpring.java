@@ -27,6 +27,7 @@ public class QueryBusSpring implements QueryBus
 {
     @Autowired private final ApplicationContext applicationContext;
     private final Map<Class<? extends Query>, QueryHandler> handlerMap = new HashMap<>();
+    private static final String CORE_PACKAGE = "com.ddd";
 
     // LOAD HANDLERS:
     //--------------------------------------------------------------------------------------------------------
@@ -54,7 +55,7 @@ public class QueryBusSpring implements QueryBus
 
     private void findAndLoadQueryHandlers()
     {
-        Reflections reflections = new Reflections("com.ddd");
+        Reflections reflections = new Reflections(CORE_PACKAGE);
         Collection<Class<? extends QueryHandler>> handlerClasses = reflections.getSubTypesOf(QueryHandler.class);
 
         for (Class<? extends QueryHandler> handlerClass: handlerClasses)

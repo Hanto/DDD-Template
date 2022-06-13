@@ -27,6 +27,7 @@ public class CommandBusSpring implements CommandBus
 {
     @Autowired private final ApplicationContext applicationContext;
     private final Map<Class<? extends Command>, CommandHandler> handlerMap = new HashMap<>();
+    private static final String CORE_PACKAGE = "com.ddd";
 
     // LOAD HANDLERS:
     //--------------------------------------------------------------------------------------------------------
@@ -54,7 +55,7 @@ public class CommandBusSpring implements CommandBus
 
     private void findAndLoadCommandHandlers()
     {
-        Reflections reflections = new Reflections("com.ddd");
+        Reflections reflections = new Reflections(CORE_PACKAGE);
         Collection<Class<? extends CommandHandler>> handlerClasses = reflections.getSubTypesOf(CommandHandler.class);
 
         for (Class<? extends CommandHandler> handlerClass: handlerClasses)
