@@ -6,7 +6,6 @@ import com.ddd.context.domain.events.EventBus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.PayloadApplicationEvent;
@@ -27,7 +26,7 @@ public class EventBusSpring implements EventBus
 {
     @Autowired private final ApplicationEventPublisher publisher;
     @Autowired private final ApplicationEventMulticaster eventMulticaster;
-    @Autowired private final ApplicationContext applicationContext;
+    @Autowired private final List<DomainEventListener<?>>listeners;
 
     // LOAD LISTENERS:
     //--------------------------------------------------------------------------------------------------------
@@ -46,11 +45,8 @@ public class EventBusSpring implements EventBus
     // LISTEN:
     //--------------------------------------------------------------------------------------------------------
 
-    @SuppressWarnings("rawtypes")
     private void findAndLoadEventListeners()
     {
-        List<DomainEventListener> listeners = applicationContext.getBeansOfType(DomainEventListener.class).values().stream().toList();
-
         for (DomainEventListener<?> listener: listeners)
             eventMulticaster.addApplicationListener(createListener(listener));
     }

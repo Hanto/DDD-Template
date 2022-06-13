@@ -12,5 +12,5 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 )
 public class JpaConfiguration
 {
-    public static final String ENTITY_PACKAGES = "com.ddd.context.adapter";
+    public static final String ENTITY_PACKAGES = "com.ddd.context.infraestructure";
 }
