@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
 
-@Component @Primary @Scope(SCOPE_SINGLETON)
+@Component @Scope(SCOPE_SINGLETON) @Primary
 @RequiredArgsConstructor
 public class OutboxAdapterJpa implements OutboxRepository
 {

@@ -19,7 +19,7 @@ import java.util.List;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
 
-@Component @Primary @Scope(SCOPE_SINGLETON)
+@Component @Scope(SCOPE_SINGLETON) @Primary
 @RequiredArgsConstructor @Log4j2
 public class EventBusSpring implements EventBus
 {
