@@ -1,6 +1,6 @@
 package com.ddd.context.application.commands;// Created by jhant on 12/06/2022.
 
-import com.ddd.common.shared.annotations.SpringComponent;
+import com.ddd.common.annotations.SpringComponent;
 import com.ddd.context.domain.commands.CommandHandler;
 import com.ddd.context.domain.repositories.OutboxRepository;
 import lombok.RequiredArgsConstructor;

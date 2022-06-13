@@ -1,4 +1,4 @@
-package com.ddd.common.shared;// Created by jhant on 07/06/2022.
+package com.ddd.common;// Created by jhant on 07/06/2022.
 
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ImportOption;
@@ -17,7 +17,6 @@ public class ArchitectureTest
     private static final String ADAPTERS = "..infraestructure..";
     private static final String APPLICATION = "..application..";
     private static final String CONFIGURATION = "..configuration..";
-    private static final String COMMON_INFRAESTRUCTURE = "..nonshared..";
 
     // GENERAL:
     //--------------------------------------------------------------------------------------------------------
@@ -54,14 +53,6 @@ public class ArchitectureTest
     {
         ArchRule myRule = noClasses().that().resideInAPackage(DOMAIN).should()
             .dependOnClassesThat().resideInAPackage(CONFIGURATION);
-        myRule.check(importedClasses);
-    }
-
-    @ArchTest
-    public void domainShouldNotDependOnCommonInfraestructure(JavaClasses importedClasses)
-    {
-        ArchRule myRule = noClasses().that().resideInAPackage(DOMAIN).should()
-            .dependOnClassesThat().resideInAPackage(COMMON_INFRAESTRUCTURE);
         myRule.check(importedClasses);
     }
 

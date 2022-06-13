@@ -1,8 +1,8 @@
-package com.ddd.common.shared;
+package com.ddd.common;
 
-import com.ddd.common.shared.annotations.SpringComponent;
-import com.ddd.common.shared.functionalinterfaces.ThrowableRunnable;
-import com.ddd.common.shared.functionalinterfaces.ThrowableSupplier;
+import com.ddd.common.annotations.SpringComponent;
+import com.ddd.common.functionalinterfaces.ThrowableRunnable;
+import com.ddd.common.functionalinterfaces.ThrowableSupplier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -39,7 +39,8 @@ import static org.springframework.transaction.annotation.Propagation.REQUIRES_NE
  * {    doSomething(); } </pre>
  *
  * @author Ivan Delgado Huerta */
-@SpringComponent @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+@SpringComponent
+@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 @Log4j2 @RequiredArgsConstructor @SuppressWarnings("unused")
 public class TransactionHandler
 {

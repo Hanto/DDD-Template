@@ -1,4 +1,4 @@
-package com.ddd.common.shared.functionalinterfaces;
+package com.ddd.common.functionalinterfaces;
 
 @FunctionalInterface
 public interface ThrowableSupplier<T>

@@ -1,9 +1,9 @@
-package com.ddd.common.shared;
+package com.ddd.common;
 
-import com.ddd.common.shared.functionalinterfaces.ThrowableConsumer;
-import com.ddd.common.shared.functionalinterfaces.ThrowableFunction;
-import com.ddd.common.shared.functionalinterfaces.ThrowableRunnable;
-import com.ddd.common.shared.functionalinterfaces.ThrowableSupplier;
+import com.ddd.common.functionalinterfaces.ThrowableConsumer;
+import com.ddd.common.functionalinterfaces.ThrowableFunction;
+import com.ddd.common.functionalinterfaces.ThrowableRunnable;
+import com.ddd.common.functionalinterfaces.ThrowableSupplier;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.function.Consumer;

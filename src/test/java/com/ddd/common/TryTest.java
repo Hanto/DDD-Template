@@ -1,9 +1,9 @@
-package com.ddd.common.shared;// Created by jhant on 08/06/2022.
+package com.ddd.common;// Created by jhant on 08/06/2022.
 
-import com.ddd.common.shared.functionalinterfaces.ThrowableConsumer;
-import com.ddd.common.shared.functionalinterfaces.ThrowableFunction;
-import com.ddd.common.shared.functionalinterfaces.ThrowableRunnable;
-import com.ddd.common.shared.functionalinterfaces.ThrowableSupplier;
+import com.ddd.common.functionalinterfaces.ThrowableConsumer;
+import com.ddd.common.functionalinterfaces.ThrowableFunction;
+import com.ddd.common.functionalinterfaces.ThrowableRunnable;
+import com.ddd.common.functionalinterfaces.ThrowableSupplier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

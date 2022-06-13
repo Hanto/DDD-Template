@@ -1,4 +1,4 @@
-package com.ddd.common.shared.datastructures;
+package com.ddd.common.datastructures;
 
 import lombok.NonNull;
 

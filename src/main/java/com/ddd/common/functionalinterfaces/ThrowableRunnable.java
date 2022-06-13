@@ -1,4 +1,4 @@
-package com.ddd.common.shared.functionalinterfaces;
+package com.ddd.common.functionalinterfaces;
 
 /**@author Ivan Delgado Huerta*/
 @FunctionalInterface

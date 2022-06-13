@@ -1,6 +1,6 @@
 package com.ddd.context.infraestructure.bus;// Created by jhant on 13/06/2022.
 
-import com.ddd.common.shared.annotations.SpringComponent;
+import com.ddd.common.annotations.SpringComponent;
 import com.ddd.context.domain.commands.Command;
 import com.ddd.context.domain.commands.CommandBus;
 import com.ddd.context.domain.commands.CommandHandler;

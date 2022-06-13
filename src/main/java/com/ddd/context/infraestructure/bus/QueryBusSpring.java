@@ -1,6 +1,6 @@
 package com.ddd.context.infraestructure.bus;// Created by jhant on 12/06/2022.
 
-import com.ddd.common.shared.annotations.SpringComponent;
+import com.ddd.common.annotations.SpringComponent;
 import com.ddd.context.domain.querybus.Query;
 import com.ddd.context.domain.querybus.QueryBus;
 import com.ddd.context.domain.querybus.QueryHandler;

@@ -1,4 +1,4 @@
-package com.ddd.common.shared.datastructures.implementations;
+package com.ddd.common.datastructures.implementations;
 
 import lombok.Getter;
 

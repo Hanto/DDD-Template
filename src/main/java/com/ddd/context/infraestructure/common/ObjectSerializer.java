@@ -1,4 +1,4 @@
-package com.ddd.common.nonshared;// Created by jhant on 10/06/2022.
+package com.ddd.context.infraestructure.common;// Created by jhant on 10/06/2022.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;

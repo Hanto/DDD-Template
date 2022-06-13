@@ -1,6 +1,6 @@
-package com.ddd.common.shared.datastructures.implementations;
+package com.ddd.common.datastructures.implementations;
 
-import com.ddd.common.shared.datastructures.DefaultMap;
+import com.ddd.common.datastructures.DefaultMap;
 
 import java.util.Collection;
 import java.util.List;

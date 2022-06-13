@@ -1,6 +1,6 @@
 package com.ddd.context.application.eventlisteners;// Created by jhant on 12/06/2022.
 
-import com.ddd.common.shared.annotations.SpringComponent;
+import com.ddd.common.annotations.SpringComponent;
 import com.ddd.context.application.commands.SendToOutboxCommand;
 import com.ddd.context.domain.commands.CommandBus;
 import com.ddd.context.domain.events.DomainEvent;
