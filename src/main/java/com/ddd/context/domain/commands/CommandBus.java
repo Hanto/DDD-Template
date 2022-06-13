@@ -2,5 +2,5 @@ package com.ddd.context.domain.commands;// Created by jhant on 12/06/2022.
 
 public interface CommandBus
 {
-    void send(Command command);
+    <T extends Command> void send(T command);
 }

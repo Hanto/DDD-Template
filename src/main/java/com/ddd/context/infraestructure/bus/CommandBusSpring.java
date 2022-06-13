@@ -1,42 +1,42 @@
-package com.ddd.context.infraestructure.bus;// Created by jhant on 12/06/2022.
+package com.ddd.context.infraestructure.bus;// Created by jhant on 13/06/2022.
 
 import com.ddd.common.shared.annotations.SpringComponent;
 import com.ddd.context.domain.commands.Command;
 import com.ddd.context.domain.commands.CommandBus;
 import com.ddd.context.domain.commands.CommandHandler;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.reflections.Reflections;
+import org.springframework.aop.framework.Advised;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 
-import javax.annotation.PostConstruct;
 import java.lang.reflect.ParameterizedType;
-import java.util.Collection;
+import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.lang.String.format;
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
 
-@SpringComponent @Primary @Scope(SCOPE_SINGLETON)
-@RequiredArgsConstructor @Log4j2 @SuppressWarnings({"rawtypes", "unchecked"})
+@SpringComponent @Scope(SCOPE_SINGLETON) @Primary
+@Log4j2 @SuppressWarnings({"rawtypes", "unchecked"})
 public class CommandBusSpring implements CommandBus
 {
-    @Autowired private final ApplicationContext applicationContext;
-    private final Map<Class<? extends Command>, CommandHandler> handlerMap = new HashMap<>();
-    private static final String CORE_PACKAGE = "com.ddd";
+    private final Map<Class<?>, CommandHandler> handlerMap = new HashMap<>();
 
-    // LOAD HANDLERS:
+    // CONSTRUCTOR:
     //--------------------------------------------------------------------------------------------------------
 
-    @PostConstruct
-    public void createHandlers()
-    {   findAndLoadCommandHandlers(); }
+    @Autowired
+    public CommandBusSpring(List<CommandHandler<? extends Command>> handlers)
+    {
+        for (CommandHandler<? extends Command> handler : handlers)
+            handlerMap.put(getCommand(handler), handler);
+    }
 
-    // EXECUTE:
+    // SEND:
     //--------------------------------------------------------------------------------------------------------
 
     @Override
@@ -45,27 +45,33 @@ public class CommandBusSpring implements CommandBus
         if (!handlerMap.containsKey(command.getClass()))
             throw new IllegalArgumentException(format("There are no commands to handle: %s", command.getClass().getSimpleName()));
 
-        CommandHandler handler = handlerMap.get(command.getClass());
-
-        handler.handle(command);
+        handlerMap.get(command.getClass()).handle(command);
     }
 
-    // HANDLE:
+    // LOAD HANDLERS:
     //--------------------------------------------------------------------------------------------------------
 
-    private void findAndLoadCommandHandlers()
+    private Class<?> getCommand(CommandHandler<?>handler)
     {
-        Reflections reflections = new Reflections(CORE_PACKAGE);
-        Collection<Class<? extends CommandHandler>> handlerClasses = reflections.getSubTypesOf(CommandHandler.class);
+        Class<?>handlerClass = getClass(handler);
 
-        for (Class<? extends CommandHandler> handlerClass: handlerClasses)
-        {
-            ParameterizedType paramType = (ParameterizedType) handlerClass.getGenericInterfaces()[0];
-            Class<? extends Command>commandClass = (Class<? extends Command>)paramType.getActualTypeArguments()[0];
+        Type commandType = Arrays.stream(handlerClass.getGenericInterfaces())
+            .filter(ParameterizedType.class::isInstance)
+            .map(ParameterizedType.class::cast)
+            .filter(this::isACommandHandler)
+            .map(type -> type.getActualTypeArguments()[0])
+            .findFirst().orElseThrow(() -> new RuntimeException(format("Invalid CommandHandler %s", handlerClass)));
 
-            CommandHandler handler = applicationContext.getBean(handlerClass);
-
-            handlerMap.put(commandClass, handler);
-        }
+        return (Class<?>) commandType;
     }
+
+    private Class<?>getClass(Object handler)
+    {
+        return handler instanceof Advised ?
+            ((Advised) handler).getTargetClass() :
+            handler.getClass();
+    }
+
+    private boolean isACommandHandler(ParameterizedType type)
+    {   return type.getRawType().getTypeName().equals(CommandHandler.class.getName()); }
 }

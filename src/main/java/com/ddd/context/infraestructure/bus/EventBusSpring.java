@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,16 +23,18 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @RequiredArgsConstructor @Log4j2
 public class EventBusSpring implements EventBus
 {
-    @Autowired private final ApplicationEventPublisher publisher;
-    @Autowired private final ApplicationEventMulticaster eventMulticaster;
-    @Autowired private final List<DomainEventListener<?>>listeners;
+    private final ApplicationEventPublisher publisher;
 
     // LOAD LISTENERS:
     //--------------------------------------------------------------------------------------------------------
 
-    @PostConstruct
-    public void createListeners()
-    {   createEventListeners(); }
+    @Autowired
+    public EventBusSpring(ApplicationEventPublisher publisher, ApplicationEventMulticaster eventMulticaster,
+        List<DomainEventListener<?>> listeners)
+    {
+        this.publisher = publisher;
+        createEventListeners(eventMulticaster, listeners);
+    }
 
     // PUBLISH:
     //--------------------------------------------------------------------------------------------------------
@@ -42,10 +43,10 @@ public class EventBusSpring implements EventBus
     public void publish(Collection<DomainEvent> events)
     {   events.forEach(publisher::publishEvent); }
 
-    // LISTEN:
+    // CREATE LISTENERS:
     //--------------------------------------------------------------------------------------------------------
 
-    private void createEventListeners()
+    private void createEventListeners( ApplicationEventMulticaster eventMulticaster, List<DomainEventListener<?>>listeners)
     {
         for (DomainEventListener<?> listener: listeners)
             eventMulticaster.addApplicationListener(createListener(listener));

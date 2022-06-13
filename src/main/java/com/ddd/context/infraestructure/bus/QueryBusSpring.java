@@ -4,37 +4,37 @@ import com.ddd.common.shared.annotations.SpringComponent;
 import com.ddd.context.domain.querybus.Query;
 import com.ddd.context.domain.querybus.QueryBus;
 import com.ddd.context.domain.querybus.QueryHandler;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.reflections.Reflections;
+import org.springframework.aop.framework.Advised;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 
-import javax.annotation.PostConstruct;
 import java.lang.reflect.ParameterizedType;
-import java.util.Collection;
+import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.lang.String.format;
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
 
-@SpringComponent @Primary @Scope(SCOPE_SINGLETON)
-@RequiredArgsConstructor @Log4j2 @SuppressWarnings({"rawtypes", "unchecked"})
+@SpringComponent @Scope(SCOPE_SINGLETON) @Primary
+@Log4j2 @SuppressWarnings({"rawtypes", "unchecked"})
 public class QueryBusSpring implements QueryBus
 {
-    @Autowired private final ApplicationContext applicationContext;
-    private final Map<Class<? extends Query>, QueryHandler> handlerMap = new HashMap<>();
-    private static final String CORE_PACKAGE = "com.ddd";
+    private final Map<Class<?>, QueryHandler> handlerMap = new HashMap<>();
 
-    // LOAD HANDLERS:
+    // CONSTRUCTOR:
     //--------------------------------------------------------------------------------------------------------
 
-    @PostConstruct
-    public void createHandlers()
-    {   findAndLoadQueryHandlers(); }
+    @Autowired
+    public QueryBusSpring(List<QueryHandler<?, ? extends Query<?>>> handlers)
+    {
+        for (QueryHandler<?, ? extends Query<?>> handler : handlers)
+            handlerMap.put(getQuery(handler), handler);
+    }
 
     // EXECUTE:
     //--------------------------------------------------------------------------------------------------------
@@ -45,27 +45,33 @@ public class QueryBusSpring implements QueryBus
         if  (!handlerMap.containsKey(query.getClass()))
             throw new IllegalArgumentException(format("There are no Queries to handle: %s", query.getClass().getSimpleName()));
 
-        QueryHandler handler = handlerMap.get(query.getClass());
-
-        return (T) handler.handle(query);
+        return (T) handlerMap.get(query.getClass()).handle(query);
     }
 
-    // HANDLERS:
+    // LOAD HANDLERS:
     //--------------------------------------------------------------------------------------------------------
 
-    private void findAndLoadQueryHandlers()
+    private Class<?> getQuery(QueryHandler<?, ? extends Query<?>>handler)
     {
-        Reflections reflections = new Reflections(CORE_PACKAGE);
-        Collection<Class<? extends QueryHandler>> handlerClasses = reflections.getSubTypesOf(QueryHandler.class);
+        Class<?>handlerClass = getClass(handler);
 
-        for (Class<? extends QueryHandler> handlerClass: handlerClasses)
-        {
-            ParameterizedType paramType = (ParameterizedType) handlerClass.getGenericInterfaces()[0];
-            Class<? extends Query>commandClass = (Class<? extends Query>)paramType.getActualTypeArguments()[0];
+        Type commandType = Arrays.stream(handlerClass.getGenericInterfaces())
+            .filter(ParameterizedType.class::isInstance)
+            .map(ParameterizedType.class::cast)
+            .filter(this::isAQueryHandler)
+            .map(type -> type.getActualTypeArguments()[0])
+            .findFirst().orElseThrow(() -> new RuntimeException(format("Invalid CommandHandler %s", handlerClass)));
 
-            QueryHandler handler = applicationContext.getBean(handlerClass);
-
-            handlerMap.put(commandClass, handler);
-        }
+        return (Class<?>) commandType;
     }
+
+    private Class<?>getClass(Object handler)
+    {
+        return handler instanceof Advised ?
+            ((Advised) handler).getTargetClass() :
+            handler.getClass();
+    }
+
+    private boolean isAQueryHandler(ParameterizedType type)
+    {   return type.getRawType().getTypeName().equals(QueryHandler.class.getName()); }
 }
