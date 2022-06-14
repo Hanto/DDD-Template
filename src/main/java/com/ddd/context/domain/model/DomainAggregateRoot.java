@@ -10,7 +10,7 @@ public abstract class DomainAggregateRoot extends DomainAggregate
 {
     private List<DomainEvent> domainEvents = new ArrayList<>();
 
-    // MAIN:
+    // EVENTS:
     //--------------------------------------------------------------------------------------------------------
 
     final protected void recordEvent(DomainEvent event)
@@ -22,4 +22,10 @@ public abstract class DomainAggregateRoot extends DomainAggregate
         domainEvents = Collections.emptyList();
         return events;
     }
+
+    // MISC:
+    //--------------------------------------------------------------------------------------------------------
+
+    public String getType()
+    {   return this.getClass().getSimpleName(); }
 }

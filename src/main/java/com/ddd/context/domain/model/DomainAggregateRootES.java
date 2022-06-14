@@ -2,17 +2,21 @@ package com.ddd.context.domain.model;// Created by jhant on 13/06/2022.
 
 import com.ddd.context.domain.events.DomainEvent;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static java.lang.String.format;
 
+@NoArgsConstructor
 public abstract class DomainAggregateRootES
 {
-    @Getter final private UUID id;
     @Getter private int baseVersion = 0;
     private final List<DomainEvent> newEvents = new ArrayList<>();
 
@@ -21,12 +25,8 @@ public abstract class DomainAggregateRootES
     // CONSTRUCTOR:
     //--------------------------------------------------------------------------------------------------------
 
-    protected DomainAggregateRootES(UUID id)
-    {   this(id, new ArrayList<>()); }
-
-    protected DomainAggregateRootES(@NonNull UUID id, @NonNull List<DomainEvent>events)
+    protected DomainAggregateRootES(@NonNull List<DomainEvent>events)
     {
-        this.id = id;
         List<DomainEvent> orderedEvents = orderEvents(events);
         orderedEvents.forEach( event ->
         {
@@ -34,6 +34,17 @@ public abstract class DomainAggregateRootES
             this.baseVersion = event.getVersion();
         });
     }
+
+    // MISC:
+    //--------------------------------------------------------------------------------------------------------
+
+    public String getType()
+    {   return this.getClass().getSimpleName(); }
+
+    protected int getNextVersion()
+    {   return baseVersion + newEvents.size() + 1; }
+
+    public abstract String getId();
 
     // APPLY EVENTS :
     //--------------------------------------------------------------------------------------------------------
@@ -72,11 +83,7 @@ public abstract class DomainAggregateRootES
     final public List<DomainEvent> getNewEvents()
     {   return Collections.unmodifiableList(newEvents); }
 
-    // MISC:
-    //--------------------------------------------------------------------------------------------------------
 
-    protected int getNextVersion()
-    {   return baseVersion + newEvents.size() + 1; }
 
     private List<DomainEvent>orderEvents(List<DomainEvent>unorderedEvents)
     {   return unorderedEvents.stream().sorted(Comparator.comparing(DomainEvent::getVersion)).toList(); }
