@@ -34,5 +34,5 @@ public class EventMapper
     //--------------------------------------------------------------------------------------------------------
 
     public DomainEvent fromEntity(EventEntity entity)
-    {   return serializer.fromJson(entity.getPayload(), DomainEvent.class.getPackageName(), entity.getEventType()); }
+    {   return serializer.fromEventJson(entity.getPayload(), entity.getEventType()); }
 }
