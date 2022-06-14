@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Entity @DynamicInsert @DynamicUpdate @Table(name = "OUTBOX")
 @NoArgsConstructor @AllArgsConstructor @Builder
 @Setter @Getter @ToString
-
 public class OutboxEntity implements Persistable<String>
 {
     // ENTITY:
@@ -23,21 +22,21 @@ public class OutboxEntity implements Persistable<String>
     @Setter(AccessLevel.NONE)
     private String eventId;
 
+    @Column(name = "AGGREGATE_ID", nullable = false)
+    @NotNull
+    private String aggregateId;
+
     @Column(name = "EVENT_TYPE", nullable = false)
     @NotNull
     private String eventType;
-
-    @Column(name = "AGGREGATE_ID", nullable = false)
-    @NotNull
-    private Long aggregateId;
 
     @Column(name = "OCCURED_ON", nullable = false)
     @NotNull
     private LocalDateTime occurredOn;
 
-    @Column(name = "EVENT_JSON", nullable = false) @Lob
+    @Column(name = "PAYLOAD", nullable = false) @Lob
     @NotNull
-    private String eventJson;
+    private String payload;
 
     // PERSISTABLE (for fast inserts):
     //--------------------------------------------------------------------------------------------------------

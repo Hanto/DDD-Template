@@ -22,10 +22,10 @@ public class OutboxMapper
     {
         return OutboxEntity.builder()
             .eventId(event.getEventId().getId())
-            .eventType(event.getType())
             .aggregateId(event.getAggregateId())
+            .eventType(event.getType())
             .occurredOn(event.getOccurredOn())
-            .eventJson(serializer.toJson(event))
+            .payload(serializer.toJson(event))
             .build();
     }
 
@@ -33,5 +33,5 @@ public class OutboxMapper
     //--------------------------------------------------------------------------------------------------------
 
     public DomainEvent fromEntity(OutboxEntity entity)
-    {   return serializer.fromJson(entity.getEventJson(), DomainEvent.class.getPackageName(), entity.getEventType()); }
+    {   return serializer.fromJson(entity.getPayload(), DomainEvent.class.getPackageName(), entity.getEventType()); }
 }
