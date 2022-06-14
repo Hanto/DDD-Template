@@ -23,6 +23,7 @@ public class OutboxMapper
         return OutboxEntity.builder()
             .eventId(event.getEventId().getId())
             .aggregateId(event.getAggregateId())
+            .aggregateType(event.getAggregateType())
             .eventType(event.getType())
             .occurredOn(event.getOccurredOn())
             .payload(serializer.toJson(event))

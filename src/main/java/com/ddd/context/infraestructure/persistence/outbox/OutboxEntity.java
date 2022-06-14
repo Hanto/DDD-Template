@@ -26,6 +26,10 @@ public class OutboxEntity implements Persistable<String>
     @NotNull
     private String aggregateId;
 
+    @Column(name = "AGGREGATE_TYPE", nullable = false)
+    @NotNull
+    private String aggregateType;
+
     @Column(name = "EVENT_TYPE", nullable = false)
     @NotNull
     private String eventType;
