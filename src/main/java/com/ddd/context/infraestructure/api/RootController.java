@@ -40,7 +40,7 @@ public class RootController
     @GetMapping("test")
     public void test()
     {
-        DomainEvent event = new ExampleEvent(1L, "Prueba", 21, true);
+        DomainEvent event = new ExampleEvent("1L", "Prueba", 21, true);
         eventBus.publish(Arrays.asList(event));
     }
 }

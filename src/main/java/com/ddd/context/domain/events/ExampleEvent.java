@@ -16,7 +16,7 @@ public class ExampleEvent extends DomainEvent
     // CONSTRUCTOR:
     //--------------------------------------------------------------------------------------------------------
 
-    public ExampleEvent(Long aggregateId, String stringField, Integer integerField, Boolean booleanField)
+    public ExampleEvent(String aggregateId, String stringField, Integer integerField, Boolean booleanField)
     {
         super(aggregateId, ExampleEvent.class);
         this.stringField = stringField;
