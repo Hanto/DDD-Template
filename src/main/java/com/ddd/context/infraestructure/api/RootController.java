@@ -1,20 +1,18 @@
 package com.ddd.context.infraestructure.api;// Created by jhant on 07/06/2022.
 
-import com.ddd.context.domain.events.DomainEvent;
-import com.ddd.context.domain.events.EventBus;
-import com.ddd.context.domain.events.ExampleEvent;
+import com.ddd.context.application.commands.account.CreateAccountCommand;
+import com.ddd.context.application.commands.account.DepositMoneyCommand;
+import com.ddd.context.domain.commands.CommandBus;
 import com.ddd.context.infraestructure.api.dtos.ApiDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -37,15 +35,22 @@ public class RootController
         return api;
     }
 
+    @Autowired private CommandBus commandBus;
+    @GetMapping("/create/{id}")
+    public void test2(@PathVariable String id)
+    {
+        CreateAccountCommand command = new CreateAccountCommand(UUID.randomUUID());
+        commandBus.send(command);
+    }
+
+    @GetMapping("/deposit/{id}/{amount}")
+    public void test3(@PathVariable String id, @PathVariable float amount)
+    {
+        DepositMoneyCommand command = new DepositMoneyCommand(UUID.fromString(id), new BigDecimal(amount));
+        commandBus.send(command);
+    }
+
     @GetMapping("favicon.ico")
     @ResponseBody
     void returnNoFavicon() {}
-
-    @Autowired private EventBus eventBus;
-    @GetMapping("test")
-    public void test()
-    {
-        DomainEvent event = new ExampleEvent("1L", "Prueba", 21, true);
-        eventBus.publish(Arrays.asList(event));
-    }
 }
