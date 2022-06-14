@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "EVENT_STORE", indexes =
 {
     @Index(name = "aggregateIdIndex", columnList = "AGGREGATE_ID"),
+    @Index(name = "aggregateTypeAndIndex", columnList = "AGGREGATE_TYPE, AGGREGATE_ID")
 })
 @NoArgsConstructor @AllArgsConstructor @Builder
 @Setter @Getter @ToString
@@ -29,6 +30,10 @@ public class EventEntity implements Persistable<String>
     @Column(name = "AGGREGATE_ID", nullable = false)
     @NotNull
     private String aggregateId;
+
+    @Column(name = "AGGREGATE_TYPE", nullable = false)
+    @NotNull
+    private String aggregateType;
 
     @Column(name = "VERSION", nullable = false)
     @NotNull

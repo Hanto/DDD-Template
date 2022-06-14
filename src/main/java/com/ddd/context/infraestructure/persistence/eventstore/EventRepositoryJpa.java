@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public interface EventRepositoryJpa extends JpaRepository<EventEntity, String>
 {
-    Optional<Version> findFirstByAggregateIdOrderByVersionDesc(String aggregateId);
-    List<EventEntity> findByAggregateId(String aggregateId);
+    Optional<Version> findFirstByAggregateIdAndAggregateTypeOrderByVersionDesc(String aggregateId, String AggregateType);
+    List<EventEntity> findByAggregateIdAndAggregateType(String aggregateId, String aggregateType);
 
     interface Version
     {   int getVersion(); }

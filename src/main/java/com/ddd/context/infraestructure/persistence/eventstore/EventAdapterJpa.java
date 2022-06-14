@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import javax.persistence.OptimisticLockException;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
 
@@ -29,7 +28,7 @@ public class EventAdapterJpa implements EventRepository
     @Override
     public void saveAggregateRoot(DomainAggregateRootES aggregate)
     {
-        Optional<Integer> savedVersion = getCurrentStoredVersion(aggregate);
+        Optional<Integer> savedVersion = getCurrentStoredVersion(aggregate.getId(), aggregate.getType());
 
         if (savedVersion.isPresent() && savedVersion.get() != aggregate.getBaseVersion())
             throw new OptimisticLockException("Base version doesn't match stored version");
@@ -41,9 +40,9 @@ public class EventAdapterJpa implements EventRepository
     }
 
     @Override
-    public List<DomainEvent> loadEvents(UUID aggregateId)
+    public List<DomainEvent> loadEvents(String aggregateId, String aggregateType)
     {
-        List<EventEntity>entities = eventRepository.findByAggregateId(aggregateId.toString());
+        List<EventEntity>entities = eventRepository.findByAggregateIdAndAggregateType(aggregateId, aggregateType);
 
         return entities.stream().map(mapper::fromEntity).toList();
     }
@@ -51,9 +50,9 @@ public class EventAdapterJpa implements EventRepository
     // HELPER:
     //--------------------------------------------------------------------------------------------------------
 
-    private Optional<Integer>getCurrentStoredVersion(DomainAggregateRootES aggregate)
+    private Optional<Integer>getCurrentStoredVersion(String aggregateId, String aggregateType)
     {
-        return eventRepository.findFirstByAggregateIdOrderByVersionDesc(aggregate.getId().toString())
+        return eventRepository.findFirstByAggregateIdAndAggregateTypeOrderByVersionDesc(aggregateId, aggregateType)
             .map(EventRepositoryJpa.Version::getVersion);
     }
 }

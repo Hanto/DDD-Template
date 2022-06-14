@@ -23,6 +23,7 @@ public class EventMapper
         return EventEntity.builder()
             .eventId(event.getEventId().getId())
             .aggregateId(event.getAggregateId())
+            .aggregateType(event.getAggregateType())
             .version(event.getVersion())
             .eventType(event.getType())
             .occurredOn(event.getOccurredOn())
