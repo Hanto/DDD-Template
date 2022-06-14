@@ -8,7 +8,7 @@ import java.time.ZoneId;
 import java.util.UUID;
 
 @Getter
-@AllArgsConstructor @NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
 public abstract class DomainEvent implements Serializable
 {
