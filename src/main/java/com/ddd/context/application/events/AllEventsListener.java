@@ -1,4 +1,4 @@
-package com.ddd.context.application.eventlisteners;// Created by jhant on 12/06/2022.
+package com.ddd.context.application.events;// Created by jhant on 12/06/2022.
 
 import com.ddd.common.annotations.SpringComponent;
 import com.ddd.context.application.commands.SendToOutboxCommand;
