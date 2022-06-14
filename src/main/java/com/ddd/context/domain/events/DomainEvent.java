@@ -17,15 +17,20 @@ public abstract class DomainEvent implements Serializable
     @NonNull private String type; // change the ObjectSerializer if the field changes its name
     @NonNull private String aggregateId;
     @NonNull private LocalDateTime occurredOn;
+    @NonNull private Integer version;
 
     // CONSTRUCTOR:
     //--------------------------------------------------------------------------------------------------------
 
-    public DomainEvent(@NonNull String aggregateId, Class<?>eventClass)
+    public DomainEvent(@NonNull String aggregateId, Class<?>eventClass, @NonNull Integer version)
     {
         this.eventId    = new DomainEventId(UUID.randomUUID().toString());
         this.type       = eventClass.getSimpleName();
         this.aggregateId= aggregateId;
         this.occurredOn = LocalDateTime.now(ZoneId.of("GMT"));
+        this.version    = version;
     }
+
+    public DomainEvent(@NonNull String aggregateId, Class<?>eventClass)
+    {   this(aggregateId, eventClass, 0); }
 }
