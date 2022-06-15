@@ -1,7 +1,7 @@
 package com.ddd.context.infraestructure.persistence.eventstore;// Created by jhant on 14/06/2022.
 
 import com.ddd.common.annotations.SpringComponent;
-import com.ddd.context.domain.events.DomainEvent;
+import com.ddd.context.domain.out.Event;
 import com.ddd.context.infraestructure.common.ObjectSerializer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class EventMapper
     // FROM DOMAIN:
     //--------------------------------------------------------------------------------------------------------
 
-    public EventEntity fromDomain(DomainEvent event)
+    public EventEntity fromDomain(Event event)
     {
         return EventEntity.builder()
             .eventId(event.getEventId().getId())
@@ -34,6 +34,6 @@ public class EventMapper
     // FROM ENTITY:
     //--------------------------------------------------------------------------------------------------------
 
-    public DomainEvent fromEntity(EventEntity entity)
+    public Event fromEntity(EventEntity entity)
     {   return serializer.fromEventJson(entity.getPayload(), entity.getEventType()); }
 }

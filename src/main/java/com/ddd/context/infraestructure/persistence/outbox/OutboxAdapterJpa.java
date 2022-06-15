@@ -1,7 +1,7 @@
 package com.ddd.context.infraestructure.persistence.outbox;// Created by jhant on 10/06/2022.
 
 import com.ddd.common.annotations.SpringComponent;
-import com.ddd.context.domain.events.DomainEvent;
+import com.ddd.context.domain.out.Event;
 import com.ddd.context.domain.repositories.OutboxRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class OutboxAdapterJpa implements OutboxRepository
     //--------------------------------------------------------------------------------------------------------
 
     @Override
-    public void saveNewEvent(DomainEvent event)
+    public void saveNewEvent(Event event)
     {
         OutboxEntity entity = eventMapper.fromDomain(event);
         entity.setNew(true);

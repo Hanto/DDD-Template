@@ -19,7 +19,6 @@ public class OutboxEntity implements Persistable<String>
 
     @Id
     @Column(name = "EVENT_ID", nullable = false)
-    @Setter(AccessLevel.NONE)
     private String eventId;
 
     @Column(name = "AGGREGATE_ID", nullable = false)

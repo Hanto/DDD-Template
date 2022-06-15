@@ -1,7 +1,7 @@
 package com.ddd.context.infraestructure.persistence.eventstore;// Created by jhant on 14/06/2022.
 
-import com.ddd.context.domain.events.DomainEvent;
-import com.ddd.context.domain.model.DomainAggregateRootES;
+import com.ddd.context.domain.model.DomainAggregateRoot;
+import com.ddd.context.domain.out.Event;
 import com.ddd.context.domain.repositories.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +9,12 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.OptimisticLockException;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.String.format;
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
 
 @Component @Scope(SCOPE_SINGLETON) @Primary
@@ -26,7 +28,7 @@ public class EventAdapterJpa implements EventRepository
     //--------------------------------------------------------------------------------------------------------
 
     @Override
-    public void saveAggregateRoot(DomainAggregateRootES aggregate)
+    public void saveAggregateRoot(DomainAggregateRoot aggregate)
     {
         Optional<Integer> savedVersion = getCurrentStoredVersion(aggregate.getId(), aggregate.getType());
 
@@ -40,9 +42,12 @@ public class EventAdapterJpa implements EventRepository
     }
 
     @Override
-    public List<DomainEvent> loadEvents(String aggregateId, String aggregateType)
+    public List<Event> loadEvents(String aggregateId, String aggregateType)
     {
         List<EventEntity>entities = eventRepository.findByAggregateIdAndAggregateType(aggregateId, aggregateType);
+
+        if (entities.isEmpty())
+            throw new EntityNotFoundException(format("Entity not found %s", aggregateId));
 
         return entities.stream().map(mapper::fromEntity).toList();
     }

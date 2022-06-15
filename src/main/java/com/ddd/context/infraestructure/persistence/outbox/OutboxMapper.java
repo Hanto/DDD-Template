@@ -1,6 +1,6 @@
 package com.ddd.context.infraestructure.persistence.outbox;// Created by jhant on 10/06/2022.
 
-import com.ddd.context.domain.events.DomainEvent;
+import com.ddd.context.domain.out.Event;
 import com.ddd.context.infraestructure.common.ObjectSerializer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class OutboxMapper
     // FROM DOMAIN:
     //--------------------------------------------------------------------------------------------------------
 
-    public OutboxEntity fromDomain(DomainEvent event)
+    public OutboxEntity fromDomain(Event event)
     {
         return OutboxEntity.builder()
             .eventId(event.getEventId().getId())
@@ -33,6 +33,6 @@ public class OutboxMapper
     // FROM ENTITY:
     //--------------------------------------------------------------------------------------------------------
 
-    public DomainEvent fromEntity(OutboxEntity entity)
+    public Event fromEntity(OutboxEntity entity)
     {   return serializer.fromEventJson(entity.getPayload(), entity.getEventType()); }
 }
