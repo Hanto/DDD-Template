@@ -32,9 +32,6 @@ public class Account extends DomainAggregateRoot
     // MAIN:
     //--------------------------------------------------------------------------------------------------------
 
-    public String getId()
-    {   return accountId.getId().toString(); }
-
     public void deposit(BigDecimal amount)
     {
         BigDecimal newBalance = balance.add(amount);
@@ -43,6 +40,9 @@ public class Account extends DomainAggregateRoot
 
         applyNewEvent(event);
     }
+
+    public String getId()
+    {   return accountId.getId().toString(); }
 
     // EVENT HANDLERS:
     //--------------------------------------------------------------------------------------------------------
