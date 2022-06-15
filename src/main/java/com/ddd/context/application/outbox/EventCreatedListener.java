@@ -6,7 +6,6 @@ import com.ddd.context.application.ports.EventListener;
 import com.ddd.context.domain.repositories.OutboxRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 @SpringComponent
 @RequiredArgsConstructor
@@ -18,7 +17,6 @@ public class EventCreatedListener implements EventListener<Event>
     //--------------------------------------------------------------------------------------------------------
 
     @Override
-    @Transactional
     public void onApplicationEvent(Event event)
     {   outboxRepository.saveNewEvent(event); }
 }
