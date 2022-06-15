@@ -1,9 +1,9 @@
 package com.ddd.context.infraestructure.bus;// Created by jhant on 12/06/2022.
 
 import com.ddd.common.annotations.SpringComponent;
-import com.ddd.context.domain.out.Query;
-import com.ddd.context.domain.out.QueryBus;
-import com.ddd.context.domain.out.QueryHandler;
+import com.ddd.context.application.ports.Query;
+import com.ddd.context.application.ports.QueryBus;
+import com.ddd.context.application.ports.QueryHandler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.aop.framework.Advised;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.ddd.context.infraestructure.persistence.eventstore;// Created by jhant on 14/06/2022.
 
 import com.ddd.common.annotations.SpringComponent;
-import com.ddd.context.domain.out.Event;
+import com.ddd.context.application.ports.Event;
 import com.ddd.context.infraestructure.common.ObjectSerializer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
