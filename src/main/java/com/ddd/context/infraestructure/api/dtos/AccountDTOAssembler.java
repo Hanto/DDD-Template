@@ -32,18 +32,20 @@ public class AccountDTOAssembler implements RepresentationModelAssembler<Account
             .getAccount(account.getAccountId()))
             .withSelfRel();
 
-        Link depositLink = getDepositLink();
+        Link depositLink = getDepositLink(account.getAccountId());
 
         account.add(selfLink);
         account.add(depositLink);
+
         return account;
     }
 
-    private Link getDepositLink()
+    private Link getDepositLink(Long accountId)
     {
         try
         {
-            return linkTo(AccountController.class.getMethod("depositMoney", Long.class, float.class))
+            return linkTo(AccountController.class
+                .getMethod("depositMoney", Long.class, Float.class), accountId, null)
                 .withRel("Deposit money");
         }
         catch (NoSuchMethodException e)

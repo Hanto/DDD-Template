@@ -44,7 +44,7 @@ public class AccountController
     }
 
     @PostMapping("/account/deposit/{id}/{amount}")
-    public void depositMoney(@PathVariable Long id, @PathVariable float amount)
+    public void depositMoney(@PathVariable Long id, @PathVariable Float amount)
     {
         DepositMoneyCommand command = new DepositMoneyCommand(id, new BigDecimal(amount));
         commandBus.send(command);
