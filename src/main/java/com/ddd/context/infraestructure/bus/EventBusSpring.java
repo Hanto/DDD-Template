@@ -1,8 +1,8 @@
 package com.ddd.context.infraestructure.bus;// Created by jhant on 10/06/2022.
 
-import com.ddd.context.domain.events.DomainEvent;
-import com.ddd.context.domain.events.DomainEventListener;
-import com.ddd.context.domain.events.EventBus;
+import com.ddd.context.domain.out.Event;
+import com.ddd.context.domain.out.EventBus;
+import com.ddd.context.domain.out.EventListener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class EventBusSpring implements EventBus
 
     @Autowired
     public EventBusSpring(ApplicationEventPublisher publisher, ApplicationEventMulticaster eventMulticaster,
-        List<DomainEventListener<?>> listeners)
+        List<EventListener<?>> listeners)
     {
         this.publisher = publisher;
         createEventListeners(eventMulticaster, listeners);
@@ -40,19 +40,19 @@ public class EventBusSpring implements EventBus
     //--------------------------------------------------------------------------------------------------------
 
     @Override
-    public void publish(Collection<DomainEvent> events)
+    public void publish(Collection<Event> events)
     {   events.forEach(publisher::publishEvent); }
 
     // CREATE LISTENERS:
     //--------------------------------------------------------------------------------------------------------
 
-    private void createEventListeners( ApplicationEventMulticaster eventMulticaster, List<DomainEventListener<?>>listeners)
+    private void createEventListeners( ApplicationEventMulticaster eventMulticaster, List<EventListener<?>>listeners)
     {
-        for (DomainEventListener<?> listener: listeners)
+        for (EventListener<?> listener: listeners)
             eventMulticaster.addApplicationListener(createListener(listener));
     }
 
-    private <T extends DomainEvent> ApplicationListener<PayloadApplicationEvent<T>> createListener(DomainEventListener<T> listener)
+    private <T extends Event> ApplicationListener<PayloadApplicationEvent<T>> createListener(EventListener<T> listener)
     {
         log.info("Creating application listener for {}", listener.getClass().getSimpleName());
         return event -> listener.onApplicationEvent(event.getPayload());

@@ -1,9 +1,9 @@
 package com.ddd.context.infraestructure.bus;// Created by jhant on 13/06/2022.
 
 import com.ddd.common.annotations.SpringComponent;
-import com.ddd.context.domain.commands.Command;
-import com.ddd.context.domain.commands.CommandBus;
-import com.ddd.context.domain.commands.CommandHandler;
+import com.ddd.context.domain.out.Command;
+import com.ddd.context.domain.out.CommandBus;
+import com.ddd.context.domain.out.CommandHandler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.aop.framework.Advised;
 import org.springframework.beans.factory.annotation.Autowired;

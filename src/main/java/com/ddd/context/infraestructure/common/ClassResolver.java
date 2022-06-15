@@ -1,7 +1,7 @@
 package com.ddd.context.infraestructure.common;// Created by jhant on 14/06/2022.
 
 import com.ddd.common.annotations.SpringComponent;
-import com.ddd.context.domain.events.DomainEvent;
+import com.ddd.context.domain.out.Event;
 import org.reflections.Reflections;
 import org.springframework.context.annotation.Scope;
 
@@ -17,7 +17,7 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @SpringComponent @Scope(SCOPE_SINGLETON)
 public class ClassResolver
 {
-    private final Map<String, Class<? extends DomainEvent>>map = new HashMap<>();
+    private final Map<String, Class<? extends Event>>map = new HashMap<>();
 
     // POSTCONSTRUCT:
     //--------------------------------------------------------------------------------------------------------
@@ -29,11 +29,11 @@ public class ClassResolver
     public void loadDomainEventClassesFrom(String basePackage)
     {
         Reflections reflections = new Reflections(basePackage);
-        Set<Class<? extends DomainEvent>> eventClasses = reflections.getSubTypesOf(DomainEvent.class);
+        Set<Class<? extends Event>> eventClasses = reflections.getSubTypesOf(Event.class);
         loadDomainEventClasses(eventClasses);
     }
 
-    public void loadDomainEventClasses(Collection<Class<? extends DomainEvent>> eventClasses)
+    public void loadDomainEventClasses(Collection<Class<? extends Event>> eventClasses)
     {   eventClasses.forEach(aClass -> map.put(aClass.getSimpleName(), aClass));}
 
     // MAIN:

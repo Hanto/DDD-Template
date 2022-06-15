@@ -1,9 +1,9 @@
 package com.ddd.context.infraestructure.bus;// Created by jhant on 12/06/2022.
 
 import com.ddd.common.annotations.SpringComponent;
-import com.ddd.context.domain.querybus.Query;
-import com.ddd.context.domain.querybus.QueryBus;
-import com.ddd.context.domain.querybus.QueryHandler;
+import com.ddd.context.domain.out.Query;
+import com.ddd.context.domain.out.QueryBus;
+import com.ddd.context.domain.out.QueryHandler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.aop.framework.Advised;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +30,9 @@ public class QueryBusSpring implements QueryBus
     //--------------------------------------------------------------------------------------------------------
 
     @Autowired
-    public QueryBusSpring(List<QueryHandler<?, ? extends Query<?>>> handlers)
+    public QueryBusSpring(List<QueryHandler<? extends Query<?>, ?>> handlers)
     {
-        for (QueryHandler<?, ? extends Query<?>> handler : handlers)
+        for (QueryHandler<? extends Query<?>, ?> handler : handlers)
             handlerMap.put(getQuery(handler), handler);
     }
 
@@ -51,18 +51,18 @@ public class QueryBusSpring implements QueryBus
     // LOAD HANDLERS:
     //--------------------------------------------------------------------------------------------------------
 
-    private Class<?> getQuery(QueryHandler<?, ? extends Query<?>>handler)
+    private Class<?> getQuery(QueryHandler<? extends Query<?>, ?>handler)
     {
         Class<?>handlerClass = getClass(handler);
 
-        Type commandType = Arrays.stream(handlerClass.getGenericInterfaces())
+        Type queryType = Arrays.stream(handlerClass.getGenericInterfaces())
             .filter(ParameterizedType.class::isInstance)
             .map(ParameterizedType.class::cast)
             .filter(this::isAQueryHandler)
             .map(type -> type.getActualTypeArguments()[0])
             .findFirst().orElseThrow(() -> new RuntimeException(format("Invalid QueryHandler %s", handlerClass)));
 
-        return (Class<?>) commandType;
+        return (Class<?>) queryType;
     }
 
     private Class<?>getClass(Object clazz)
