@@ -51,5 +51,4 @@ public class AccountDTOAssembler implements RepresentationModelAssembler<Account
         catch (NoSuchMethodException e)
         {   throw new RuntimeException(e); }
     }
-
 }
