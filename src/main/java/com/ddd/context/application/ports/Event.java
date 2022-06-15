@@ -1,4 +1,4 @@
-package com.ddd.context.domain.events;// Created by jhant on 10/06/2022.
+package com.ddd.context.application.ports;// Created by jhant on 10/06/2022.
 
 import lombok.*;
 
@@ -10,10 +10,10 @@ import java.util.UUID;
 @NoArgsConstructor @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true) @ToString
 @Getter
-public abstract class DomainEvent implements Serializable
+public abstract class Event implements Serializable
 {
     @EqualsAndHashCode.Include
-    @NonNull private DomainEventId eventId;
+    @NonNull private EventId eventId;
     @NonNull private String type; // change the ObjectSerializer if the field changes its name
     @NonNull private String aggregateId;
     @NonNull private String aggregateType;
@@ -23,9 +23,9 @@ public abstract class DomainEvent implements Serializable
     // CONSTRUCTOR:
     //--------------------------------------------------------------------------------------------------------
 
-    public DomainEvent(@NonNull Object aggregateId, @NonNull String aggregateType, @NonNull Integer version)
+    public Event(@NonNull Object aggregateId, @NonNull String aggregateType, @NonNull Integer version)
     {
-        this.eventId        = new DomainEventId(UUID.randomUUID().toString());
+        this.eventId        = new EventId(UUID.randomUUID().toString());
         this.type           = this.getClass().getSimpleName();
         this.aggregateId    = aggregateId.toString();
         this.aggregateType  = aggregateType;
@@ -33,6 +33,6 @@ public abstract class DomainEvent implements Serializable
         this.version        = version;
     }
 
-    public DomainEvent(@NonNull String aggregateId, String aggregateType)
+    public Event(@NonNull String aggregateId, String aggregateType)
     {   this(aggregateId, aggregateType,0); }
 }

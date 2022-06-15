@@ -1,6 +1,4 @@
-package com.ddd.context.application.common;// Created by jhant on 07/06/2022.
-
-import com.ddd.context.domain.commands.Command;
+package com.ddd.context.application.ports;// Created by jhant on 07/06/2022.
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -10,7 +8,7 @@ import java.util.Set;
 
 import static javax.validation.Validation.buildDefaultValidatorFactory;
 
-public abstract class SelfValidatingObject<T> implements Command
+public abstract class SelfValidatingObject<T>
 {
     @SuppressWarnings("unchecked")
     protected void validateSelf()
