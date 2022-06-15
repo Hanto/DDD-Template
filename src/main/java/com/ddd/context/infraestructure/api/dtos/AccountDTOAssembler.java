@@ -2,7 +2,7 @@ package com.ddd.context.infraestructure.api.dtos;// Created by jhant on 15/06/20
 
 import com.ddd.common.annotations.SpringComponent;
 import com.ddd.context.domain.model.account.AccountProyection;
-import com.ddd.context.infraestructure.api.RootController;
+import com.ddd.context.infraestructure.api.AccountController;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +28,26 @@ public class AccountDTOAssembler implements RepresentationModelAssembler<Account
     {
         AccountDTO account = mapper.fromModel(entity);
 
-        Link selfLink = linkTo(methodOn(RootController.class)
+        Link selfLink = linkTo(methodOn(AccountController.class)
             .getAccount(account.getAccountId()))
             .withSelfRel();
 
+        Link depositLink = getDepositLink();
+
         account.add(selfLink);
+        account.add(depositLink);
         return account;
+    }
+
+    private Link getDepositLink()
+    {
+        try
+        {
+            return linkTo(AccountController.class.getMethod("depositMoney", Long.class, float.class))
+                .withRel("Deposit money");
+        }
+        catch (NoSuchMethodException e)
+        {   throw new RuntimeException(e); }
     }
 
 }

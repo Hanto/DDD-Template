@@ -1,21 +1,7 @@
 package com.ddd.context.infraestructure.api.errorhandling;// Created by jhant on 26/05/2022.
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.lang.NonNull;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class RestErrorHandler extends ResponseEntityExceptionHandler
@@ -26,7 +12,7 @@ public class RestErrorHandler extends ResponseEntityExceptionHandler
     // Display the result of constaint violations (Entity Validation)
     //--------------------------------------------------------------------------------------------------------
 
-    @ExceptionHandler({ConstraintViolationException.class})
+    /*@ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<Object>handleConstraintViolation(ConstraintViolationException ex, WebRequest request)
     {
         List<FieldErrors> fieldErrors = ex.getConstraintViolations().stream()
@@ -129,5 +115,5 @@ public class RestErrorHandler extends ResponseEntityExceptionHandler
             .fieldValue(violation.getInvalidValue().toString())
             .reason(violation.getMessage())
             .build();
-    }
+    }*/
 }

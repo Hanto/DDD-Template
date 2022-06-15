@@ -1,0 +1,52 @@
+package com.ddd.context.infraestructure.api;// Created by jhant on 15/06/2022.
+
+import com.ddd.context.application.account.CreateAccountCommand;
+import com.ddd.context.application.account.DepositMoneyCommand;
+import com.ddd.context.application.account.FindAccountQuery;
+import com.ddd.context.application.ports.CommandBus;
+import com.ddd.context.application.ports.QueryBus;
+import com.ddd.context.domain.model.account.AccountProyection;
+import com.ddd.context.infraestructure.api.dtos.AccountDTO;
+import com.ddd.context.infraestructure.api.dtos.AccountDTOAssembler;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.MediaTypes;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+
+@RestController
+@RequestMapping(value ="/api", produces = {MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE})
+@RequiredArgsConstructor @SuppressWarnings("all")
+public class AccountController
+{
+    @Autowired private final AccountDTOAssembler accountAssembler;
+    @Autowired private final CommandBus commandBus;
+    @Autowired private final QueryBus queryBus;
+
+    // MAIN:
+    //--------------------------------------------------------------------------------------------------------
+
+    @PostMapping("/account/{id}")
+    public void createAccount(@PathVariable Long id)
+    {
+        CreateAccountCommand command = new CreateAccountCommand(id, "Random client");
+        commandBus.send(command);
+    }
+
+    @GetMapping("/account/{id}")
+    public AccountDTO getAccount(@PathVariable Long id)
+    {
+        FindAccountQuery query = new FindAccountQuery(id);
+        AccountProyection account =  queryBus.send(query);
+        return accountAssembler.toModel(account);
+    }
+
+    @PostMapping("/account/deposit/{id}/{amount}")
+    public void depositMoney(@PathVariable Long id, @PathVariable float amount)
+    {
+        DepositMoneyCommand command = new DepositMoneyCommand(id, new BigDecimal(amount));
+        commandBus.send(command);
+    }
+}
