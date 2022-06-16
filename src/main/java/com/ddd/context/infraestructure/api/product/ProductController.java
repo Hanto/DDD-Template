@@ -4,12 +4,10 @@ import com.ddd.context.application.ports.CommandBus;
 import com.ddd.context.application.ports.QueryBus;
 import com.ddd.context.application.product.AddPriceCommand;
 import com.ddd.context.application.product.CreateProductCommand;
+import com.ddd.context.application.product.FindPriceAtQuery;
 import com.ddd.context.application.product.FindProductQuery;
-import com.ddd.context.domain.model.product.BrandId;
 import com.ddd.context.domain.model.product.Price;
-import com.ddd.context.domain.model.product.ProductId;
 import com.ddd.context.domain.model.product.ProductProyection;
-import com.ddd.context.domain.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -68,15 +66,14 @@ public class ProductController
         return productAssembler.toModel(proyection);
     }
 
-    @Autowired private final ProductRepository repo;
     @GetMapping("/price/{productId}")
     public PriceDTO getPrice(
         @PathVariable Long productId,
         @NotNull @RequestParam Long brandId,
         @NotNull @RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)LocalDateTime dateTime)
     {
-        ProductProyection proyection = repo.loadProduct(new ProductId(productId));
-        Price price = proyection.getPriceAt(dateTime, new BrandId(brandId));
+        FindPriceAtQuery query = new FindPriceAtQuery(productId, brandId, dateTime);
+        Price price = queryBus.send(query);
 
         return priceAssembler.toModel(price);
     }
