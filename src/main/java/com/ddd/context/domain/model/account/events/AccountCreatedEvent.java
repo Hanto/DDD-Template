@@ -1,6 +1,6 @@
 package com.ddd.context.domain.model.account.events;// Created by jhant on 14/06/2022.
 
-import com.ddd.context.application.ports.Event;
+import com.ddd.context.application.common.Event;
 import com.ddd.context.domain.model.account.Account;
 import com.ddd.context.domain.model.account.AccountId;
 import lombok.Getter;

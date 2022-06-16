@@ -1,6 +1,6 @@
 package com.ddd.context.domain.common;// Created by jhant on 13/06/2022.
 
-import com.ddd.context.application.ports.Event;
+import com.ddd.context.application.common.Event;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
