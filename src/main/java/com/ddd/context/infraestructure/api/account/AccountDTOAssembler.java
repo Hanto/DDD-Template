@@ -1,8 +1,7 @@
-package com.ddd.context.infraestructure.api.dtos;// Created by jhant on 15/06/2022.
+package com.ddd.context.infraestructure.api.account;// Created by jhant on 15/06/2022.
 
 import com.ddd.common.annotations.SpringComponent;
 import com.ddd.context.domain.model.account.AccountProyection;
-import com.ddd.context.infraestructure.api.AccountController;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

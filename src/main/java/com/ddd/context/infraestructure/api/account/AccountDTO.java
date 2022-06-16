@@ -1,4 +1,4 @@
-package com.ddd.context.infraestructure.api.dtos;// Created by jhant on 15/06/2022.
+package com.ddd.context.infraestructure.api.account;// Created by jhant on 15/06/2022.
 
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;

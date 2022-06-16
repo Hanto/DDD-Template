@@ -1,7 +1,9 @@
 package com.ddd.context.domain.model.account;// Created by jhant on 14/06/2022.
 
 import com.ddd.context.application.ports.Event;
-import com.ddd.context.domain.model.DomainAggregateRoot;
+import com.ddd.context.domain.common.DomainAggregateRoot;
+import com.ddd.context.domain.model.account.events.AccountCreatedEvent;
+import com.ddd.context.domain.model.account.events.MoneyDepositedEvent;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -21,13 +23,13 @@ public class Account extends DomainAggregateRoot
 
     public Account(AccountId accountId, String clientId)
     {
-        AccountCreatedEvent event = new AccountCreatedEvent(accountId.getId(), getType(), getNextVersion(), clientId, BigDecimal.ZERO);
+        AccountCreatedEvent event = new AccountCreatedEvent(accountId, getNextVersion(), clientId, BigDecimal.ZERO);
 
         applyNewEvent(event);
     }
 
     public Account(List<Event> events)
-    {   super(events); }
+    {   applyAllEvents(events); }
 
     // MAIN:
     //--------------------------------------------------------------------------------------------------------
@@ -36,11 +38,12 @@ public class Account extends DomainAggregateRoot
     {
         BigDecimal newBalance = balance.add(amount);
 
-        MoneyDepositedEvent event = new MoneyDepositedEvent(accountId.getId(), getType(), getNextVersion(), amount, newBalance);
+        MoneyDepositedEvent event = new MoneyDepositedEvent(accountId, getNextVersion(), amount, newBalance);
 
         applyNewEvent(event);
     }
 
+    @Override
     public String getId()
     {   return accountId.getId().toString(); }
 
@@ -49,7 +52,7 @@ public class Account extends DomainAggregateRoot
 
     private void apply(AccountCreatedEvent event)
     {
-        this.accountId = new AccountId(event.getAccountId());
+        this.accountId = event.getAccountId();
         this.clientId = event.getClientId();
         this.balance = event.getBalance();
     }

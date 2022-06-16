@@ -1,5 +1,6 @@
 package com.ddd.context.infraestructure.persistence.account;// Created by jhant on 14/06/2022.
 
+import com.ddd.context.domain.model.account.AccountId;
 import com.ddd.context.domain.model.account.AccountProyection;
 import com.ddd.context.domain.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +29,9 @@ public class AccountAdapter implements AccountRepository
     {   accountRepository.save(mapper.fromDomain(account)); }
 
     @Override
-    public AccountProyection getAccount(Long accountId)
+    public AccountProyection loadAccount(AccountId accountId)
     {
-        AccountEntity entity = accountRepository.findById(accountId)
+        AccountEntity entity = accountRepository.findById(accountId.getId())
             .orElseThrow(() -> new EntityNotFoundException(format("No account exists with the id: %s", accountId)));
 
         return mapper.fromEntity(entity);

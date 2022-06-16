@@ -1,5 +1,7 @@
 package com.ddd.context.domain.model.account;// Created by jhant on 15/06/2022.
 
+import com.ddd.context.domain.model.account.events.AccountCreatedEvent;
+import com.ddd.context.domain.model.account.events.MoneyDepositedEvent;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -19,7 +21,7 @@ public class AccountProyection
 
     public void apply(AccountCreatedEvent event)
     {
-        this.accountId = new AccountId(event.getAccountId());
+        this.accountId = event.getAccountId();
         this.clientId = event.getClientId();
         this.balance = event.getBalance();
         this.version = event.getVersion();

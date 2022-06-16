@@ -20,5 +20,5 @@ public class FindAccountQueryHandler implements QueryHandler<FindAccountQuery, A
     @Override
     @Transactional
     public AccountProyection handle(FindAccountQuery query)
-    {   return accountRepository.getAccount(query.getAccountId().getId()); }
+    {   return accountRepository.loadAccount(query.getAccountId()); }
 }

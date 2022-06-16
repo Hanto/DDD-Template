@@ -1,6 +1,5 @@
-package com.ddd.context.infraestructure.api;// Created by jhant on 07/06/2022.
+package com.ddd.context.infraestructure.api.root;// Created by jhant on 07/06/2022.
 
-import com.ddd.context.infraestructure.api.dtos.ApiDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.hateoas.MediaTypes;

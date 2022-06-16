@@ -1,4 +1,4 @@
-package com.ddd.context.domain.model;// Created by jhant on 13/06/2022.
+package com.ddd.context.domain.common;// Created by jhant on 13/06/2022.
 
 import com.ddd.context.application.ports.Event;
 import lombok.Getter;
@@ -22,19 +22,6 @@ public abstract class DomainAggregateRoot
 
     private final static String EVENT_METHOD_PREFIX = "apply";
 
-    // CONSTRUCTOR:
-    //--------------------------------------------------------------------------------------------------------
-
-    protected DomainAggregateRoot(@NonNull List<Event>events)
-    {
-        List<Event> orderedEvents = orderEvents(events);
-        orderedEvents.forEach( event ->
-        {
-            apply(event);
-            this.baseVersion = event.getVersion();
-        });
-    }
-
     // MISC:
     //--------------------------------------------------------------------------------------------------------
 
@@ -48,6 +35,16 @@ public abstract class DomainAggregateRoot
 
     // APPLY EVENTS :
     //--------------------------------------------------------------------------------------------------------
+
+    protected void applyAllEvents(@NonNull List<Event>events)
+    {
+        List<Event> orderedEvents = orderEvents(events);
+        orderedEvents.forEach( event ->
+        {
+            apply(event);
+            this.baseVersion = event.getVersion();
+        });
+    }
 
     final protected void applyNewEvent(Event event)
     {

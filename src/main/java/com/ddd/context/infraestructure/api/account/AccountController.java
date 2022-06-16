@@ -1,4 +1,4 @@
-package com.ddd.context.infraestructure.api;// Created by jhant on 15/06/2022.
+package com.ddd.context.infraestructure.api.account;// Created by jhant on 15/06/2022.
 
 import com.ddd.context.application.account.CreateAccountCommand;
 import com.ddd.context.application.account.DepositMoneyCommand;
@@ -6,8 +6,6 @@ import com.ddd.context.application.account.FindAccountQuery;
 import com.ddd.context.application.ports.CommandBus;
 import com.ddd.context.application.ports.QueryBus;
 import com.ddd.context.domain.model.account.AccountProyection;
-import com.ddd.context.infraestructure.api.dtos.AccountDTO;
-import com.ddd.context.infraestructure.api.dtos.AccountDTOAssembler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
