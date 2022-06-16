@@ -5,6 +5,7 @@ import com.ddd.context.domain.model.product.events.PriceCostAddedEvent;
 import com.ddd.context.domain.model.product.events.ProductCreatedEvent;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,6 +36,9 @@ public class ProductProyection
 
     public Collection<Price> getPriceList()
     {   return prices.getPriceList(); }
+
+    public Price getPriceAt(LocalDateTime dateTime, BrandId brand)
+    {   return prices.getPriceAt(dateTime, brand); }
 
     // EVENT HANDLERS:
     //--------------------------------------------------------------------------------------------------------

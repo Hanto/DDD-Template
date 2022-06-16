@@ -5,7 +5,11 @@ import com.ddd.context.application.ports.QueryBus;
 import com.ddd.context.application.product.AddPriceCommand;
 import com.ddd.context.application.product.CreateProductCommand;
 import com.ddd.context.application.product.FindProductQuery;
+import com.ddd.context.domain.model.product.BrandId;
+import com.ddd.context.domain.model.product.Price;
+import com.ddd.context.domain.model.product.ProductId;
 import com.ddd.context.domain.model.product.ProductProyection;
+import com.ddd.context.domain.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,6 +17,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -23,7 +28,8 @@ public class ProductController
 {
     @Autowired private final CommandBus commandBus;
     @Autowired private final QueryBus queryBus;
-    @Autowired private final ProductDTOAssembler assembler;
+    @Autowired private final ProductDTOAssembler productAssembler;
+    @Autowired private final PriceDTOAssembler priceAssembler;
 
     // MAIN:
     //--------------------------------------------------------------------------------------------------------
@@ -44,7 +50,7 @@ public class ProductController
         @PathVariable Long priceId,
         @RequestParam(value = "brandId") Long brandId,
         @RequestParam(value = "startDate")  @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)LocalDateTime startDate,
-        @RequestParam(value = "startDate")  @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)LocalDateTime endDate,
+        @RequestParam(value = "endDate")  @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)LocalDateTime endDate,
         @RequestParam(value = "priority") int priority,
         @RequestParam(value = "money") BigDecimal money,
         @RequestParam(value = "currency") String currency)
@@ -59,6 +65,19 @@ public class ProductController
         FindProductQuery query = new FindProductQuery(id);
         ProductProyection proyection = queryBus.send(query);
 
-        return assembler.toModel(proyection);
+        return productAssembler.toModel(proyection);
+    }
+
+    @Autowired private final ProductRepository repo;
+    @GetMapping("/price/{productId}")
+    public PriceDTO getPrice(
+        @PathVariable Long productId,
+        @NotNull @RequestParam Long brandId,
+        @NotNull @RequestParam @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME)LocalDateTime dateTime)
+    {
+        ProductProyection proyection = repo.loadProduct(new ProductId(productId));
+        Price price = proyection.getPriceAt(dateTime, new BrandId(brandId));
+
+        return priceAssembler.toModel(price);
     }
 }

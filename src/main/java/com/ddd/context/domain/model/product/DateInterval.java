@@ -37,7 +37,7 @@ public class DateInterval
 
     private void validate()
     {
-        if (startDate.isAfter(endDate))
+        if (startDate.isAfter(endDate) || startDate.isEqual(endDate))
             throw new IllegalArgumentException("Start date cannot be after End date");
     }
 }
