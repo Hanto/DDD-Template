@@ -1,7 +1,7 @@
 package com.ddd.context.domain.model.product;// Created by jhant on 15/06/2022.
 
-import com.ddd.context.application.common.Event;
 import com.ddd.context.domain.common.DomainAggregateRoot;
+import com.ddd.context.domain.common.Event;
 import com.ddd.context.domain.model.product.events.PriceAddedEvent;
 import com.ddd.context.domain.model.product.events.PriceCostAddedEvent;
 import com.ddd.context.domain.model.product.events.ProductCreatedEvent;

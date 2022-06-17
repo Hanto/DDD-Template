@@ -1,4 +1,4 @@
-package com.ddd.context.application.common;// Created by jhant on 12/06/2022.
+package com.ddd.context.domain.common;// Created by jhant on 12/06/2022.
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

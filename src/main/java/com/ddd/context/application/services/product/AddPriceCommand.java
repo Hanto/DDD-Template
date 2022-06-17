@@ -32,5 +32,6 @@ public class AddPriceCommand extends SelfValidatingObject<CreateProductCommand> 
         this.dateInterval = new DateInterval(startDate, endDate);
         this.priority = priority;
         this.money = new Money(money, currency);
+        this.validateSelf();
     }
 }

@@ -1,6 +1,6 @@
 package com.ddd.context.domain.model.product.events;// Created by jhant on 15/06/2022.
 
-import com.ddd.context.application.common.Event;
+import com.ddd.context.domain.common.Event;
 import com.ddd.context.domain.model.account.Account;
 import com.ddd.context.domain.model.product.Money;
 import com.ddd.context.domain.model.product.PriceId;

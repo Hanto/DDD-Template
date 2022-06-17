@@ -1,8 +1,8 @@
 package com.ddd.context.infraestructure.bus;// Created by jhant on 10/06/2022.
 
-import com.ddd.context.application.common.Event;
 import com.ddd.context.application.common.EventBus;
 import com.ddd.context.application.common.EventListener;
+import com.ddd.context.domain.common.Event;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

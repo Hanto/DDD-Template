@@ -2,8 +2,8 @@ package com.ddd.context.application.services.account;// Created by jhant on 14/0
 
 import com.ddd.common.annotations.SpringComponent;
 import com.ddd.context.application.common.CommandHandler;
-import com.ddd.context.application.common.Event;
 import com.ddd.context.application.common.EventBus;
+import com.ddd.context.domain.common.Event;
 import com.ddd.context.domain.model.account.Account;
 import com.ddd.context.domain.repositories.EventRepository;
 import lombok.RequiredArgsConstructor;

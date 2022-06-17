@@ -1,7 +1,7 @@
 package com.ddd.context.infraestructure.common;// Created by jhant on 14/06/2022.
 
 import com.ddd.common.annotations.SpringComponent;
-import com.ddd.context.application.common.Event;
+import com.ddd.context.domain.common.Event;
 import org.reflections.Reflections;
 import org.springframework.context.annotation.Scope;
 

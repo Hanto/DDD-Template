@@ -2,8 +2,8 @@ package com.ddd.context.application.services.product;// Created by jhant on 16/0
 
 import com.ddd.common.annotations.SpringComponent;
 import com.ddd.context.application.common.CommandHandler;
-import com.ddd.context.application.common.Event;
 import com.ddd.context.application.common.EventBus;
+import com.ddd.context.domain.common.Event;
 import com.ddd.context.domain.model.product.Product;
 import com.ddd.context.domain.repositories.EventRepository;
 import lombok.RequiredArgsConstructor;

@@ -4,14 +4,13 @@ import com.ddd.context.application.common.Query;
 import com.ddd.context.application.common.SelfValidatingObject;
 import com.ddd.context.domain.model.account.AccountId;
 import com.ddd.context.domain.model.account.AccountProyection;
-import com.ddd.context.infraestructure.persistence.account.AccountEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 
 import javax.validation.constraints.NotNull;
 
 @Value @EqualsAndHashCode(callSuper = false)
-public class FindAccountQuery extends SelfValidatingObject<AccountEntity> implements Query<AccountProyection>
+public class FindAccountQuery extends SelfValidatingObject<FindAccountQuery> implements Query<AccountProyection>
 {
     @NotNull AccountId accountId;
 

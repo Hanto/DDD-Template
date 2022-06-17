@@ -1,6 +1,6 @@
 package com.ddd.context.infraestructure.persistence.outbox;// Created by jhant on 10/06/2022.
 
-import com.ddd.context.application.common.Event;
+import com.ddd.context.domain.common.Event;
 import com.ddd.context.infraestructure.common.ObjectSerializer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
